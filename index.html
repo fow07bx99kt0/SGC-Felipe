@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SGC – Sistema de Gestão de Conhecimento</title>
+  <style>
+    :root { --brand:#0ea5e9; --muted:#475569; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:linear-gradient(#f8fafc,#eef2f7); }
+    .container { max-width:1100px; margin:24px auto; padding:0 16px; }
+    header { display:flex; align-items:center; justify-content: space-between; gap:12px; margin-bottom:16px; }
+    header h1 { font-size:22px; margin:0; display:flex; align-items:center; gap:10px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px; }
+    .card { background:#fff; border:1px solid #e2e8f0; border-radius:18px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); cursor:pointer; }
+    .card:hover { box-shadow:0 8px 18px rgba(0,0,0,.12); transform: translateY(-1px); }
+    .iconbox { width:46px; height:46px; border-radius:14px; background:#fff; border:1px solid #e2e8f0; display:grid; place-items:center; }
+    .muted { color: var(--muted); }
+    a.cardlink { text-decoration:none; color:inherit; display:block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><img src="assets/logo.svg" width="28" height="28" alt="SGC"/> SGC – Sistema de Gestão de Conhecimento</h1>
+    </header>
+
+    <p class="muted">Clique em uma categoria: a pasta do SharePoint abrirá em uma <b>nova aba</b> (dentro do aplicativo, no WebView do Teams).</p>
+
+    <section id="home">
+      <div class="grid" id="cards"></div>
+    </section>
+  </div>
+
+  <script>
+    const FOLDERS = {"Engenharia": "https://corpalloteamentos.sharepoint.com/:f:/r/sites/Corpal/Processos/GEST%C3%83O%20DE%20CONHECIMENTO/02.%20DOCUMENTAL%20DE%20PROCESSOS/ENGENHARIA?csf=1&web=1&e=rEbGW5", "BackOffice": "https://corpalloteamentos.sharepoint.com/:f:/r/sites/Corpal/Processos/GEST%C3%83O%20DE%20CONHECIMENTO/02.%20DOCUMENTAL%20DE%20PROCESSOS/BACKOFFICE?csf=1&web=1&e=b3W0M4", "Negócios": "https://corpalloteamentos.sharepoint.com/:f:/r/sites/Corpal/Processos/GEST%C3%83O%20DE%20CONHECIMENTO/02.%20DOCUMENTAL%20DE%20PROCESSOS/NEG%C3%93CIOS?csf=1&web=1&e=K0tzaA", "Políticas": "https://corpalloteamentos.sharepoint.com/:f:/r/sites/Corpal/Processos/GEST%C3%83O%20DE%20CONHECIMENTO/01.%20INSTITUCIONAL?csf=1&web=1&e=uQ0VeK", "Manuais": "https://corpalloteamentos.sharepoint.com/:f:/r/sites/Corpal/Processos/GEST%C3%83O%20DE%20CONHECIMENTO/03.%20MANUAIS?csf=1&web=1&e=au4hZX", "Modelos de Documentos": "https://corpalloteamentos.sharepoint.com/:f:/r/sites/Corpal/Processos/GEST%C3%83O%20DE%20CONHECIMENTO/04.%20MODELOS%20E%20LOGOS?csf=1&web=1&e=cCenYW", "Treinamentos": "https://corpalloteamentos.sharepoint.com/:f:/r/sites/Corpal/Processos/GEST%C3%83O%20DE%20CONHECIMENTO/05.%20TREINAMENTOS?csf=1&web=1&e=AatK1K"};
+    const categories = [
+      ["Engenharia","Projetos, padrões, checklists"],
+      ["BackOffice","Compras, RH, administrativo"],
+      ["Negócios","Comercial, propostas, playbooks"],
+      ["Políticas","Normas internas e compliance"],
+      ["Manuais","Guias e procedimentos"],
+      ["Modelos de Documentos","Templates padronizados"],
+      ["Treinamentos","Conteúdos educacionais"]
+    ];
+
+    const cardsEl = document.getElementById('cards');
+    for (const [key, desc] of categories) {
+      const a = document.createElement('a');
+      a.className = 'cardlink';
+      a.href = FOLDERS[key];
+      a.target = '_blank'; // abre em nova aba/janela (no Teams abre no webview próprio)
+      a.rel = 'noopener';
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="iconbox">📁</div>
+        <h3 style="margin:10px 0 6px 0; font-size:16px;">${key}</h3>
+        <p class="muted" style="margin:0;">${desc}</p>
+      `;
+      a.appendChild(card);
+      cardsEl.appendChild(a);
+    }
+  </script>
+</body>
+</html>
